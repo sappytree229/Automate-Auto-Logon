@@ -38,7 +38,14 @@ function EnterTheUserName
 
 function EnterThePassword
 {
-
+    $UserPassword = Read-Host "Enter the user password" -AsSecureString
+    $UserConfirmationPassword = Read-Host "Confirm the user password" -AsSecureString
+    
+    if ($UserPassword -ne $UserConfirmationPassword)
+    {
+        Write-Host "Those passwords do not match. Please enter them again."
+        Start-Sleep -seconds 1
+        EnterThePassword
 }
 
 function VerifyInput([string] $UserInput, [scriptblock] $FunctionToCall)

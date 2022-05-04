@@ -1,4 +1,4 @@
-﻿function WouldYouLikeToSetupAutoLogin
+function WouldYouLikeToSetupAutoLogin()
 {
     $TheirResponse = Read-Host -Prompt "Would you like to setup auto logon for this device? yes/no"
 
@@ -12,6 +12,7 @@
     }
     elseif ($TheirResponse -contains 'yes')
     {
+        VerifyInput($TheirResponse, WouldYouLikeToSetupAutoLogin)
         IsYourComputerOnADomain
     }
     else
@@ -20,7 +21,7 @@
     }
 }
 
-function IsYourComputerOnADomain
+function IsYourComputerOnADomain()
 {
     
 }
@@ -40,9 +41,19 @@ function EnterThePassword
 
 }
 
-function VerifyInput
+function VerifyInput([string] $UserInput, [scriptblock] $FunctionToCall)
 {
+    $Confirmation = read-host "Is " $UserInput " correct? yes/no"
 
+    if ($Confirmation -contains 'no')
+    {
+        $FunctionToCall
+    }
+    elseif ($Confirmation -contains 'yes')
+    {
+        write-host "Moving on"
+        break
+    }
 }
 
 WouldYouLikeToSetupAutoLogin

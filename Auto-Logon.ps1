@@ -46,6 +46,11 @@ function EnterThePassword
         Write-Host "Those passwords do not match. Please enter them again."
         Start-Sleep -seconds 1
         EnterThePassword
+     }
+     else
+     {
+        
+     }
 }
 
 function VerifyInput([string] $UserInput, [scriptblock] $FunctionToCall)

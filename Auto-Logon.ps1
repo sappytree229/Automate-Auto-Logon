@@ -49,7 +49,7 @@ function EnterThePassword
      }
      else
      {
-        
+        #Create registry key for password
      }
 }
 

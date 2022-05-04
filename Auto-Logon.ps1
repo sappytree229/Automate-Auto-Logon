@@ -23,17 +23,45 @@ function WouldYouLikeToSetupAutoLogin()
 
 function IsYourComputerOnADomain()
 {
-    
+    $OnDomain = Read-Host "Is your computer on a domain? yes/no"
+
+    if ($OnDomain -contains 'no')
+    {
+        Write-host "Great! Moving on!"
+
+        EnterTheUserName
+    }
+    elseif ($TheirResponse -contains 'yes')
+    {
+        EnterTheDomainName
+    }
+    else
+    {
+        IsYourComputerOnADomain
+    }
 }
 
 function EnterTheDomainName
 {
+    $DomainName = Read-Host "What is the domain name?"
 
+    VerifyInput($DomainName)
+
+    #Create The Registry Key
+
+
+    EnterTheUserName
 }
 
 function EnterTheUserName
 {
+    $Username = Read-Host "Enter the username?"
 
+    VerifyInput($Username)
+
+    #Create The Registry Key
+
+    EnterThePassword
 }
 
 function EnterThePassword

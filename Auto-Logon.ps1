@@ -12,7 +12,7 @@ function WouldYouLikeToSetupAutoLogin()
     }
     elseif ($TheirResponse -contains 'yes')
     {
-        VerifyInput($TheirResponse, WouldYouLikeToSetupAutoLogin)
+        
         IsYourComputerOnADomain
     }
     else
@@ -59,7 +59,7 @@ function VerifyInput([string] $UserInput, [scriptblock] $FunctionToCall)
 
     if ($Confirmation -contains 'no')
     {
-        $FunctionToCall
+        Invoke-Command $FunctionToCall
     }
     elseif ($Confirmation -contains 'yes')
     {

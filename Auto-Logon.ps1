@@ -25,13 +25,13 @@ function IsYourComputerOnADomain()
 {
     $OnDomain = Read-Host "Is your computer on a domain? yes/no"
 
-    if ($OnDomain -contains 'no')
+    if ($OnDomain -ceq 'no')
     {
         Write-host "Great! Moving on!"
 
         EnterTheUserName
     }
-    elseif ($TheirResponse -contains 'yes')
+    elseif ($OnDomain -ceq 'yes')
     {
         EnterTheDomainName
     }
@@ -45,7 +45,7 @@ function EnterTheDomainName
 {
     $DomainName = Read-Host "What is the domain name?"
 
-    VerifyInput($DomainName)
+    VerifyInput $DomainName ${& EnterTheDomainName}
 
     #Create The Registry Key
 
@@ -57,7 +57,7 @@ function EnterTheUserName
 {
     $Username = Read-Host "Enter the username?"
 
-    VerifyInput($Username)
+    VerifyInput $Username ${& EnterTheUserName}
 
     #Create The Registry Key
 
@@ -68,20 +68,27 @@ function EnterThePassword
 {
     $UserPassword = Read-Host "Enter the user password" -AsSecureString
     $UserConfirmationPassword = Read-Host "Confirm the user password" -AsSecureString
-    
-    if ($UserPassword -ne $UserConfirmationPassword)
+    $UserPasswordMatch = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($UserPassword))
+    $UserConfirmationPasswordMatch = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($UserConfirmationPassword))
+
+    if ($UserPasswordMatch -ceq $UserConfirmationPasswordMatch)
     {
-        Write-Host "Those passwords do not match. Please enter them again."
-        Start-Sleep -seconds 1
-        EnterThePassword
-     }
-     else
-     {
+        write-host "They match! Remember that password"
+
         #Create registry key for password
-     }
+
+    }
+    else
+    {
+        Write-Host "Those passwords do not match. Please enter it again."
+
+        Start-Sleep -seconds 1
+
+        EnterThePassword
+    }
 }
 
-function VerifyInput([string] $UserInput, [scriptblock] $FunctionToCall)
+function VerifyInput([string]$UserInput, [scriptblock]$FunctionToCall)
 {
     $Confirmation = read-host "Is " $UserInput " correct? yes/no"
 
@@ -92,7 +99,8 @@ function VerifyInput([string] $UserInput, [scriptblock] $FunctionToCall)
     elseif ($Confirmation -contains 'yes')
     {
         write-host "Moving on"
-        break
+        
+        start-sleep -Seconds 1
     }
 }
 

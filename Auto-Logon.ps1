@@ -45,7 +45,7 @@ function EnterTheDomainName
 {
     $DomainName = Read-Host "What is the domain name?"
 
-    VerifyInput $DomainName ${& EnterTheDomainName}
+    VerifyInput $DomainName ${function:\EnterTheDomainName}
 
     #Create The Registry Key
 
@@ -57,7 +57,7 @@ function EnterTheUserName
 {
     $Username = Read-Host "Enter the username?"
 
-    VerifyInput $Username ${& EnterTheUserName}
+    VerifyInput $Username -FunctionToCall ${function:\EnterTheUserName}
 
     #Create The Registry Key
 
@@ -88,13 +88,13 @@ function EnterThePassword
     }
 }
 
-function VerifyInput([string]$UserInput, [scriptblock]$FunctionToCall)
+function VerifyInput ([string]$UserInput, [scriptblock]$FunctionToCall)
 {
     $Confirmation = read-host "Is " $UserInput " correct? yes/no"
 
     if ($Confirmation -contains 'no')
     {
-        Invoke-Command $FunctionToCall
+        $FunctionToCall.Invoke
     }
     elseif ($Confirmation -contains 'yes')
     {

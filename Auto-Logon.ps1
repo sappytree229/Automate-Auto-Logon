@@ -23,7 +23,7 @@ function WouldYouLikeToSetupAutoLogin()
 
 function IsYourComputerOnADomain()
 {
-    $OnDomain = Read-Host "`nIs your computer on a domain? yes/no"
+    $OnDomain = Read-Host -Prompt "`nIs your computer on a domain? yes/no"
 
     if ($OnDomain -ceq 'no')
     {
@@ -43,7 +43,7 @@ function IsYourComputerOnADomain()
 
 function EnterTheDomainName
 {
-    $DomainName = Read-Host "`nWhat is the domain name?"
+    $DomainName = Read-Host -Prompt "`nWhat is the domain name?"
 
     VerifyInput $DomainName {EnterTheDomainName}
 
@@ -55,7 +55,7 @@ function EnterTheDomainName
 
 function EnterTheUserName
 {
-    $Username = Read-Host "`nEnter the username?"
+    $Username = Read-Host -Prompt "`nEnter the username?"
 
     VerifyInput $Username {EnterTheUserName}
 
@@ -66,8 +66,8 @@ function EnterTheUserName
 
 function EnterThePassword
 {
-    $UserPassword = Read-Host "Enter the user password" -AsSecureString
-    $UserConfirmationPassword = Read-Host "Confirm the user password" -AsSecureString
+    $UserPassword = Read-Host -Prompt "Enter the user password" -AsSecureString
+    $UserConfirmationPassword = Read-Host -Prompt "Confirm the user password" -AsSecureString
     $UserPasswordMatch = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($UserPassword))
     $UserConfirmationPasswordMatch = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($UserConfirmationPassword))
 
@@ -90,7 +90,7 @@ function EnterThePassword
 
 function VerifyInput ([string]$UserInput, [scriptblock]$FunctionToCall)
 {
-    $Confirmation = read-host "`nIs " $UserInput " correct? yes/no"
+    $Confirmation = read-host -Prompt "`nIs " $UserInput " correct? yes/no"
 
     if ($Confirmation -contains 'no')
     {

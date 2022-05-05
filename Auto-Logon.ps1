@@ -4,7 +4,7 @@ function WouldYouLikeToSetupAutoLogin()
 
     if ($TheirResponse -contains 'no')
     {
-        write-host "Okay, Goodbye!"
+        write-host "`nOkay, Goodbye!"
 
         Start-Sleep -seconds 3
 
@@ -23,11 +23,11 @@ function WouldYouLikeToSetupAutoLogin()
 
 function IsYourComputerOnADomain()
 {
-    $OnDomain = Read-Host "Is your computer on a domain? yes/no"
+    $OnDomain = Read-Host "`nIs your computer on a domain? yes/no"
 
     if ($OnDomain -ceq 'no')
     {
-        Write-host "Great! Moving on!"
+        Write-host "`nGreat! Moving on!"
 
         EnterTheUserName
     }
@@ -43,7 +43,7 @@ function IsYourComputerOnADomain()
 
 function EnterTheDomainName
 {
-    $DomainName = Read-Host "What is the domain name?"
+    $DomainName = Read-Host "`nWhat is the domain name?"
 
     VerifyInput $DomainName {EnterTheDomainName}
 
@@ -55,7 +55,7 @@ function EnterTheDomainName
 
 function EnterTheUserName
 {
-    $Username = Read-Host "Enter the username?"
+    $Username = Read-Host "`nEnter the username?"
 
     VerifyInput $Username {EnterTheUserName}
 
@@ -73,14 +73,14 @@ function EnterThePassword
 
     if ($UserPasswordMatch -ceq $UserConfirmationPasswordMatch)
     {
-        write-host "They match! Remember that password"
+        write-host "`nThey match! Remember that password"
 
         #Create registry key for password
 
     }
     else
     {
-        Write-Host "Those passwords do not match. Please enter it again."
+        Write-Host "`nThose passwords do not match. Please enter it again."
 
         Start-Sleep -seconds 1
 
@@ -90,7 +90,7 @@ function EnterThePassword
 
 function VerifyInput ([string]$UserInput, [scriptblock]$FunctionToCall)
 {
-    $Confirmation = read-host "Is " $UserInput " correct? yes/no"
+    $Confirmation = read-host "`nIs " $UserInput " correct? yes/no"
 
     if ($Confirmation -contains 'no')
     {
@@ -98,7 +98,7 @@ function VerifyInput ([string]$UserInput, [scriptblock]$FunctionToCall)
     }
     elseif ($Confirmation -contains 'yes')
     {
-        write-host "Moving on"
+        write-host "`nMoving on"
         
         start-sleep -Seconds 1
     }

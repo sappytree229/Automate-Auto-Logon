@@ -48,7 +48,13 @@ function EnterTheDomainName
     VerifyInput $DomainName {EnterTheDomainName}
 
     #Create The Registry Key
-
+    New-Item -Path "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" `
+             -Name "DefaultDomainName"
+    New-ItemProperty -Path "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" `
+             -Name "DefaultDomainName" `
+             -Value "$DomainName" `
+             -PropertyType "String"
+             
 
     EnterTheUserName
 }
@@ -60,6 +66,12 @@ function EnterTheUserName
     VerifyInput $Username {EnterTheUserName}
 
     #Create The Registry Key
+    New-Item -Path "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" `
+             -Name "DefaultUsername"
+    New-ItemProperty -Path "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" `
+             -Name "DefaultUsername" `
+             -Value "$Username" `
+             -PropertyType "String"
 
     EnterThePassword
 }
@@ -76,6 +88,14 @@ function EnterThePassword
         write-host "`nThey match! Remember that password"
 
         #Create registry key for password
+        New-Item -Path "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" `
+             -Name "DefaultPassword"
+        New-ItemProperty -Path "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" `
+             -Name "DefaultPassword" `
+             -Value "$UserPasswordMatch" `
+             -PropertyType "String"
+
+        SetupAutoLogonRegistryKey
 
     }
     else
@@ -106,7 +126,19 @@ function VerifyInput ([string]$UserInput, [scriptblock]$FunctionToCall)
 
 function SetupAutoLogonRegistryKey()
 {
+    New-Item -Path "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" `
+             -Name "AutoAdminLogon"
+    New-ItemProperty -Path "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" `
+             -Name "AutoAdminLogon" `
+             -Value "1" `
+             -PropertyType "String"
+}
 
+function VerifyKeysCreated()
+{
+    
+
+    #Restart after verification
 }
 
 WouldYouLikeToSetupAutoLogin
